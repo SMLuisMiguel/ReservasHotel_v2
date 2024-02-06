@@ -98,38 +98,38 @@ public class Controlador {
 
     //METODOS GET
 
-    public Huesped[] getHuespedes()
+    public List<Huesped> getHuespedes()
     {
         return modelo.getHuespedes();
     }
 
-    public Habitacion[]getHabitaciones()
+    public List<Habitacion> getHabitaciones()
     {
         return modelo.getHabitaciones();
     }
 
-    public Habitacion[] getHabitaciones(TipoHabitacion tipoHabitacion)
+    public List<Habitacion> getHabitaciones(TipoHabitacion tipoHabitacion)
     {
         return modelo.getHabitaciones(tipoHabitacion);
     }
 
 
-    public Reserva[] getReservas()
+    public List<Reserva> getReservas()
     {
         return modelo.getReservas();
     }
 
-    public Reserva[]getReservas(Huesped huesped )
+    public List<Reserva> getReservas(Huesped huesped )
     {
         return modelo.getReservas(huesped);
     }
 
-    public Reserva[] getReservas(TipoHabitacion tipohabitacion)
+    public List<Reserva> getReservas(TipoHabitacion tipohabitacion)
     {
         return modelo.getReservas(tipohabitacion);
     }
 
-    public Reserva[] getReservasFuturas(Habitacion habitacion)
+    public List<Reserva> getReservasFuturas(Habitacion habitacion)
     {
         return modelo.getReservasFuturas(habitacion);
     }
