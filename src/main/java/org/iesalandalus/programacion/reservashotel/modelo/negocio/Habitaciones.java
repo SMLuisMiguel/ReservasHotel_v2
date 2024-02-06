@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Habitaciones {
-    List<Habitacion>coleccionHabitaciones;
+    private List<Habitacion> coleccionHabitaciones;
 
     //constructor
     public Habitaciones ()
