@@ -1,5 +1,8 @@
 package org.iesalandalus.programacion.reservashotel.negocio;
 
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.Habitaciones;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
