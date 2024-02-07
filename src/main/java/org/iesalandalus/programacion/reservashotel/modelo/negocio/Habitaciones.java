@@ -63,29 +63,16 @@ public class Habitaciones {
         }
         else
         {
-           boolean insertado= false;
            for (int i=0; i < coleccionHabitaciones.size(); i++)
            {
                Habitacion original= coleccionHabitaciones.get(i);
-               if(original == null)
+               if(original.equals(habitacion))
                {
-                   coleccionHabitaciones.add(habitacion);
-                   insertado= true;
-                   break;
-               }
-               else
-               {
-                   if(original.equals(habitacion))
-                   {
-                       throw new OperationNotSupportedException("ERROR: Ya existe una habitación con ese identificador.");
-                   }
-
+                   throw new OperationNotSupportedException("ERROR: Ya existe una habitación con ese identificador.");
                }
            }
-           if (!insertado)
-           {
-               throw new OperationNotSupportedException("ERROR: No se aceptan más habitaciones.");
-           }
+           coleccionHabitaciones.add(habitacion);
+           System.out.println("Habitacion insertada.");
         }
     }
 

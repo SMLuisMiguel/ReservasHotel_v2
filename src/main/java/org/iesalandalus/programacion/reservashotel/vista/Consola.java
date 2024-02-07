@@ -181,70 +181,67 @@ public class Consola {
             pedirPuerta=Entrada.entero();
         }
 
-        return new Habitacion(pedirPlanta, pedirPuerta, 100.0, TipoHabitacion.SIMPLE);
+        return new Habitacion(pedirPlanta, pedirPuerta, 150.0, TipoHabitacion.SUITE);
     }
 
     public static TipoHabitacion leerTipoHabitacion()
     {
-        TipoHabitacion tipoHabitacion = null;
+        System.out.println("Introduce el tipo de habitación.");
+        System.out.println("1: Suite. \n2: Simple. \n3: Doble.\n4: Triple.");
+        System.out.println("Elige una opción");
+        int menu= Entrada.entero();
 
-        while (tipoHabitacion == null)
+        while (menu<1 || menu>4)
         {
-            System.out.println("Introduce el tipo de habitación.");
-            String tipo = Entrada.cadena();
-
-            switch (tipo.toLowerCase()){
-                case "suite":
-                    tipoHabitacion = TipoHabitacion.SUITE;
-                    break;
-                case "simple":
-                    tipoHabitacion = TipoHabitacion.SIMPLE;
-                    break;
-                case "doble":
-                    tipoHabitacion = TipoHabitacion.DOBLE;
-                    break;
-                case "triple":
-                    tipoHabitacion = TipoHabitacion.TRIPLE;
-                    break;
-            }
+            System.out.println("Introduzca una opción correcta");
+            menu=Entrada.entero();
         }
-        return tipoHabitacion;
+
+        switch (menu)
+        {
+            case 1:
+                return TipoHabitacion.SUITE;
+            case 2:
+                return TipoHabitacion.SIMPLE;
+            case 3:
+                return TipoHabitacion.DOBLE;
+            default:
+                return TipoHabitacion.TRIPLE;
+        }
     }
 
     public static Regimen leerRegimen()
     {
+        System.out.println("Introduce el regimen.");
+        System.out.println("1: Solo alojamiento. \n2: Alojamiento con desayuno. \n3: Media pension.\n4: Pension completa.");
+        System.out.println("Elige una opción");
+        int menu= Entrada.entero();
 
-        Regimen regimen = null;
-
-        while (regimen == null)
+        while (menu<1 || menu>4)
         {
-            System.out.println("Introduce el regimen.");
-            String tipo = Entrada.cadena();
-
-            switch (tipo.toLowerCase()){
-                case "solo alojamiento":
-                    regimen = Regimen.SOLO_ALOJAMIENTO;
-                    break;
-                case "alojamiento con desayuno":
-                    regimen = Regimen.ALOJAMIENTO_DESAYUNO;
-                    break;
-                case "media pension":
-                    regimen = Regimen.MEDIA_PENSION;
-                    break;
-                case "pension completa":
-                    regimen = Regimen.PENSION_COMPLETA;
-                    break;
-            }
+            System.out.println("Introduzca una opción correcta");
+            menu=Entrada.entero();
         }
-        return regimen;
+
+        switch (menu)
+        {
+            case 1:
+                return Regimen.SOLO_ALOJAMIENTO;
+            case 2:
+                return Regimen.ALOJAMIENTO_DESAYUNO;
+            case 3:
+                return Regimen.MEDIA_PENSION;
+            default:
+                return Regimen.PENSION_COMPLETA;
+        }
     }
 
     public static Reserva leerReserva()
     {
 
-        Huesped huesped = leerHuesped();
+        Huesped huesped = getHuespedPorDni();
 
-        Habitacion habitacion = leerHabitacion();
+        Habitacion habitacion = leerHabitacionPorIdentificador();
 
         Regimen regimen = leerRegimen();
 

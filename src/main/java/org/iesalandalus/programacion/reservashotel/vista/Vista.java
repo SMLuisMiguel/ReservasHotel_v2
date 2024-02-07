@@ -136,7 +136,7 @@ public class Vista {
         while (huesped == null) {
             try {
                 huesped = Consola.leerHuesped();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println(e.getMessage());
                 System.out.println("Intentelo de nuevo");
             }
@@ -156,7 +156,7 @@ public class Vista {
         while (huesped == null) {
             try {
                 huesped = Consola.getHuespedPorDni();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println(e.getMessage());
                 System.out.println("Intentelo de nuevo");
             }
@@ -173,7 +173,7 @@ public class Vista {
                 System.out.println("Huesped no encontrado");
             }
             System.out.println("Volviendo al menu...");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
             System.out.println("Volviendo al menu...");
         }
@@ -185,7 +185,7 @@ public class Vista {
         while (huesped == null) {
             try {
                 huesped = Consola.getHuespedPorDni();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println(e.getMessage());
                 System.out.println("Intentelo de nuevo");
             }
@@ -230,7 +230,7 @@ public class Vista {
         while (habitacion == null) {
             try {
                 habitacion = Consola.leerHabitacion();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println(e.getMessage());
                 System.out.println("Intentelo de nuevo");
             }
@@ -249,7 +249,7 @@ public class Vista {
         while (habitacion == null) {
             try {
                 habitacion = Consola.leerHabitacionPorIdentificador();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println(e.getMessage());
                 System.out.println("Intentelo de nuevo");
             }
@@ -266,7 +266,7 @@ public class Vista {
                 System.out.println("Habitación no encontrada");
             }
             System.out.println("Volviendo al menu...");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             System.out.println(e.getMessage());
             System.out.println("Volviendo al menu...");
         }
@@ -278,7 +278,7 @@ public class Vista {
         while (habitacion == null) {
             try {
                 habitacion = Consola.leerHabitacionPorIdentificador();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println(e.getMessage());
                 System.out.println("Intentelo de nuevo");
             }
@@ -351,7 +351,10 @@ public class Vista {
         while (reserva == null) {
             try {
                 reserva = Consola.leerReserva();
-            } catch (Exception e) {
+
+                reserva.setHuesped(controlador.buscar(reserva.getHuesped()));
+                reserva.setHabitacion(controlador.buscar(reserva.getHabitacion()));
+            } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println(e.getMessage());
                 System.out.println("Intentelo de nuevo");
             }
@@ -360,7 +363,7 @@ public class Vista {
             Habitacion habitacionLibre = consultarDisponibilidad(
                     reserva.getHabitacion().getTipoHabitacion(),
                     reserva.getFechaInicioReserva(),
-                    reserva.getFechaInicioReserva()
+                    reserva.getFechaFinReserva()
             );
 
             if (habitacionLibre != null) {
@@ -532,19 +535,27 @@ public class Vista {
     private void anularReserva()
     {
         Huesped huesped = null;
-        List<Reserva> reservasAnulables = null;
+        List<Reserva> reservasAnulables = new ArrayList<>();
         while (huesped == null)
         {
             try {
                 huesped = Consola.getHuespedPorDni();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println(e.getMessage());
                 System.out.println("Intentelo de nuevo");
             }
         }
         try
         {
-            reservasAnulables = getReservasAnulables(controlador.getReservas());
+            List<Reserva> reservasTemporal = getReservasAnulables(controlador.getReservas());
+            for (int i = 0; i < reservasTemporal.size(); i++)
+            {
+                if (reservasTemporal.get(i) != null && reservasTemporal.get(i).getHuesped().equals(huesped))
+                {
+                    reservasAnulables.add(reservasTemporal.get(i));
+                }
+            }
+
             if (reservasAnulables.isEmpty())
             {
                 System.out.println("No existen reservas anulables");
@@ -572,22 +583,23 @@ public class Vista {
                     for (int i = 0; i < reservasAnulables.size(); i++)
                     {
                         System.out.println((i + 1) + " - " + reservasAnulables.get(i));
-                        System.out.println("Introduzca una opcion");
-                        int menu = Entrada.entero();
-
-                        while (menu < 1 || menu > reservasAnulables.size())
-                        {
-                            System.out.println("Introduzca un número correcto");
-                            menu = Entrada.entero();
-                        }
-
-                        controlador.borrar(reservasAnulables.get(menu - 1));
-                        System.out.println("Reserva borrada");
                     }
+
+                    System.out.println("Introduzca una opcion");
+                    int menu = Entrada.entero();
+
+                    while (menu < 1 || menu > reservasAnulables.size())
+                    {
+                        System.out.println("Introduzca un número correcto");
+                        menu = Entrada.entero();
+                    }
+
+                    controlador.borrar(reservasAnulables.get(menu - 1));
+                    System.out.println("Reserva borrada");
                 }
             }
             System.out.println("Volviendo al menu...");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
             System.out.println(e.getMessage());
             System.out.println("Volviendo al menu...");
         }
@@ -710,6 +722,7 @@ public class Vista {
                 {
                     return controlador.getHabitaciones().get(i);
                 }
+                boolean habitacionValida = true;
                 for (int j = 0; j < controlador.getReservas().size(); j++)
                 {
                     if (controlador.getReservas().get(j) != null && controlador.getReservas().get(j).getHabitacion().equals(controlador.getHabitaciones().get(i)))
@@ -734,13 +747,18 @@ public class Vista {
 
 
 
-                        if (!isFechaInicioNuevaEntreLaReserva && !isFechaFinNuevaEntreLaReserva &&
-                                !isFechaInicioAntiguaEntreLaReservaNueva && !isFechaFinAntiguaEntreLaReservaNueva )
+                        if (isFechaInicioNuevaEntreLaReserva || isFechaFinNuevaEntreLaReserva ||
+                                isFechaInicioAntiguaEntreLaReservaNueva || isFechaFinAntiguaEntreLaReservaNueva )
                         {
-                            habitacion = controlador.getHabitaciones().get(i);
-                            return habitacion;
+                            habitacionValida = false;
                         }
                     }
+                }
+
+                if (habitacionValida)
+                {
+                    habitacion = controlador.getHabitaciones().get(i);
+                    return habitacion;
                 }
             }
         }

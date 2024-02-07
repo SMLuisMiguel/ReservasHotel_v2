@@ -55,29 +55,16 @@ public class Reservas {
         }
         else
         {
-            boolean insertado= false;
             for (int i=0; i < coleccionReservas.size(); i++)
             {
                 Reserva original= coleccionReservas.get(i);
-                if(original == null)
+                if(original.equals(reserva))
                 {
-                    coleccionReservas.add(reserva);
-                    insertado= true;
-                    break;
-                }
-                else
-                {
-                    if(original.equals(reserva))
-                    {
-                        throw new OperationNotSupportedException("ERROR: Ya existe una reserva igual.");
-                    }
-
+                    throw new OperationNotSupportedException("ERROR: Ya existe una reserva igual.");
                 }
             }
-            if (!insertado)
-            {
-                throw new OperationNotSupportedException("ERROR: No se aceptan más reservas.");
-            }
+            coleccionReservas.add(reserva);
+            System.out.println("Reserva insertada");
         }
     }
 

@@ -55,28 +55,17 @@ public class Huespedes {
         }
         else
         {
-            boolean insertado = false;
             for (int i = 0; i < coleccionHuespedes.size(); i++)
             {
                 Huesped original = coleccionHuespedes.get(i);
-                if (original == null)
+                if (original.equals(huesped))
                 {
-                    coleccionHuespedes.add(huesped);
-                    insertado = true;
-                    break;
-                }
-                else
-                {
-                    if (original.equals(huesped))
-                    {
-                        throw new OperationNotSupportedException("ERROR: Ya existe un huésped con ese dni.");
-                    }
+                    throw new OperationNotSupportedException("ERROR: Ya existe un huésped con ese dni.");
                 }
             }
 
-            if(!insertado){
-                throw new OperationNotSupportedException("ERROR: No se aceptan más huéspedes.");
-            }
+            coleccionHuespedes.add(huesped);
+            System.out.println("Huesped insertado");
         }
     }
 
